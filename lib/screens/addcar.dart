@@ -43,7 +43,7 @@ class _AddCArState extends State<AddCAr> {
             )),
         centerTitle: true,
         title: const Text(
-          "ADD NEW CAR",
+          "ADD NEW CAR ",
           style: TextStyle(
               color: Colors.amber, fontSize: 16, fontWeight: FontWeight.bold),
         ),
