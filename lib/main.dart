@@ -12,7 +12,11 @@ Future<void> main() async {
   if (!Hive.isAdapterRegistered(CarModelAdapter().typeId)) {
     Hive.registerAdapter(CarModelAdapter());
   }
+  if (!Hive.isAdapterRegistered(CustomerModelAdapter().typeId)) {
+    Hive.registerAdapter(CustomerModelAdapter());
+  }
   await Hive.openBox<CarModel>('car_db');
+  await Hive.openBox<CustomerModel>('customer_db');
   runApp(const MyApp());
 }
 
@@ -23,9 +27,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      // themeMode: ThemeMode.system, // Automatically adapts to system's theme
-      // theme: ThemeData.light(),
-      // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 10, 47, 39)),

@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
       await sharedPref.setBool(saveKey, true);
 
       Navigator.of(ctx).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => const MyHomePage(title: 'home')));
+          MaterialPageRoute(builder: (ctx) => MyHomePage(title: 'home')));
     } else {
       ScaffoldMessenger.of(ctx).showSnackBar(
         const SnackBar(

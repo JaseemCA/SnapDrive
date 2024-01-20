@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapdrive/controller/db_functions.dart';
 // import 'package:snapdrive/db/datamodel.dart';
+// import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/addcar.dart';
 import 'package:snapdrive/screens/availablecarslist.dart';
 import 'package:snapdrive/screens/login.dart';
+import 'package:snapdrive/screens/rentOutcarlist.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -69,13 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               )),
                           TextButton(
                               onPressed: () {
-                                Navigator.of(context).pop(
-                                  MaterialPageRoute(
-                                    builder: (context) => const MyHomePage(
-                                      title: 'home',
-                                    ),
-                                  ),
-                                );
+                                Navigator.of(context).pop();
                               },
                               child: const Text('CANCEL'))
                         ]);
@@ -89,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: TabBarView(
-          children: [Availablecars(), Text("rentout")],
+          children: [Availablecars(), Rentoutcars()],
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {

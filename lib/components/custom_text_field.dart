@@ -29,7 +29,7 @@ class CustomTextField extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Vallue is empty';
+          return 'Value is empty';
         } else {
           return null;
         }

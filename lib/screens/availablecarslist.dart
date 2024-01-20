@@ -80,7 +80,8 @@ class _AvailablecarsState extends State<Availablecars> {
                             IconButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (ctx) => const AddCustomer()));
+                                      builder: (ctx) => AddCustomer(
+                                          selectedCar: data[index])));
                                 },
                                 icon: const Icon(
                                   Icons.arrow_forward_ios,

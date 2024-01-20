@@ -1,11 +1,19 @@
+// import 'dart:ffi';
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:gap/gap.dart';
 import 'package:snapdrive/components/custom_text_field.dart';
+import 'package:snapdrive/controller/db_functions.dart';
+import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/addcar.dart';
+import 'package:snapdrive/screens/rentOutcarlist.dart';
 
 class AddCustomer extends StatefulWidget {
-  const AddCustomer({super.key});
+  final CarModel? selectedCar;
+  const AddCustomer({super.key, this.selectedCar});
 
   @override
   State<AddCustomer> createState() => _AddCustomerState();
@@ -16,16 +24,65 @@ final carRegController = TextEditingController();
 final customerNameController = TextEditingController();
 final mobileNumberController = TextEditingController();
 final licenseNumberController = TextEditingController();
-TextEditingController pickupdate = TextEditingController();
-TextEditingController pickupTime = TextEditingController();
-TextEditingController dropOffDate = TextEditingController();
+final pickupdate = TextEditingController();
+final pickupTime = TextEditingController();
+final dropOffDate = TextEditingController();
 final securityDepositController = TextEditingController();
+String? selectedImage;
+File? imagepath;
 
 TimeOfDay timeOfDay = TimeOfDay.now();
 
 class _AddCustomerState extends State<AddCustomer> {
   @override
+  void initState() {
+    super.initState();
+    if (widget.selectedCar != null) {
+      // Populate text fields with data from the selected CarModel
+      carnameController.text = widget.selectedCar!.vehiclename;
+      carRegController.text = widget.selectedCar!.vehicleReg;
+      selectedImage = widget.selectedCar!.selectedImage;
+      // imagepath = widget.selectedCar!.selectedImage as File;
+      // Add similar lines for other fields if needed
+    }
+  }
+
+  Widget _buildSelectedImage() {
+    return SizedBox(
+      height: 150,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: selectedImage != null && selectedImage!.isNotEmpty
+                ? Image.file(
+                    File(selectedImage!),
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                  )
+                : Container(),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                // Handle edit image action
+              },
+              color: Colors.amber,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(widget.selectedCar!.selectedImage);
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
@@ -56,6 +113,8 @@ class _AddCustomerState extends State<AddCustomer> {
             key: formKey,
             child: Column(
               children: [
+                _buildSelectedImage(),
+                const Gap(15),
                 CustomTextField(
                   labelText: 'Car Name',
                   hintText: 'Car Name',
@@ -176,6 +235,7 @@ class _AddCustomerState extends State<AddCustomer> {
                         ),
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
+                            saveCus();
                           } else {
                             // print('Data empty');
                           }
@@ -192,5 +252,56 @@ class _AddCustomerState extends State<AddCustomer> {
         ),
       ),
     );
+  }
+
+  Future<void> saveCus() async {
+    final carname = carnameController.text.trim();
+    final carReg = carRegController.text.trim();
+    final customerName = customerNameController.text.trim();
+    final mobileNumber = mobileNumberController.text.trim();
+    final licenseNumber = licenseNumberController.text.trim();
+    final securityDeposit = securityDepositController.text.trim();
+    final pickupdaten = pickupdate.text.trim();
+    final pickupTimen = pickupTime.text.trim();
+    final dropOffDaten = dropOffDate.text.trim();
+    final imagepath = widget.selectedCar!.selectedImage;
+
+    if (carname.isEmpty ||
+        carReg.isEmpty ||
+        customerName.isEmpty ||
+        mobileNumber.isEmpty ||
+        licenseNumber.isEmpty ||
+        securityDeposit.isEmpty ||
+        pickupdaten.isEmpty ||
+        pickupTimen.isEmpty ||
+        dropOffDaten.isEmpty) {
+      return;
+    }
+    final customerA = CustomerModel(
+      carname: carname,
+      carReg: carReg,
+      customerName: customerName,
+      mobileNumber: mobileNumber,
+      licenseNumber: licenseNumber,
+      pickupdate: pickupdaten,
+      pickupTime: pickupTimen,
+      dropOffDate: dropOffDaten,
+      securityDeposit: securityDeposit,
+      selectedImage: imagepath,
+    );
+
+    await addCustomer(customerA);
+
+    Navigator.pop(context);
+
+    customerNameController.clear();
+    carRegController.clear();
+    carnameController.clear();
+    mobileNumberController.clear();
+    licenseNumberController.clear();
+    pickupdate.clear();
+    pickupTime.clear();
+    dropOffDate.clear();
+    securityDepositController.clear();
   }
 }
