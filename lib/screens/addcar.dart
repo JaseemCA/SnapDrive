@@ -2,12 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:snapdrive/components/customdropdown.dart';
+import 'package:snapdrive/components/customelevated.dart';
 import 'package:snapdrive/components/custom_text_field.dart';
 import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/controller/db_functions.dart';
 
 class AddCAr extends StatefulWidget {
-  const AddCAr({super.key});
+  const AddCAr({Key? key}) : super(key: key);
 
   @override
   State<AddCAr> createState() => _AddCArState();
@@ -34,18 +36,22 @@ class _AddCArState extends State<AddCAr> {
           ),
         ),
         leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-            )),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         title: const Text(
           "ADD NEW CAR",
           style: TextStyle(
-              color: Colors.amber, fontSize: 16, fontWeight: FontWeight.bold),
+            color: Colors.amber,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: const Color.fromARGB(255, 10, 47, 39),
       ),
@@ -57,74 +63,40 @@ class _AddCArState extends State<AddCAr> {
             child: Column(
               children: [
                 CustomTextField(
-                    labelText: 'Car Name',
-                    hintText: 'Car Name',
-                    keyboardType: TextInputType.text,
-                    controller: vehiclenameController),
+                  labelText: 'Car Name',
+                  hintText: 'Car Name',
+                  keyboardType: TextInputType.text,
+                  controller: vehiclenameController,
+                ),
                 const Gap(15),
                 CustomTextField(
-                    labelText: 'Registration Number',
-                    hintText: 'Registration Number',
-                    keyboardType: TextInputType.text,
-                    controller: vehicleRegController),
+                  labelText: 'Registration Number',
+                  hintText: 'Registration Number',
+                  keyboardType: TextInputType.text,
+                  controller: vehicleRegController,
+                ),
                 const Gap(15),
-                DropdownButtonFormField<String>(
+                customDropdownField(
+                  labelText: 'Fuel',
+                  hintText: 'Fuel',
                   value: selectedFuel,
-                  items: ['Petrol', 'Diesel', 'EV'].map((String fuelType) {
-                    return DropdownMenuItem<String>(
-                      value: fuelType,
-                      child: Text(fuelType),
-                    );
-                  }).toList(),
+                  items: ['Petrol', 'Diesel', 'EV'],
                   onChanged: (String? value) {
                     setState(() {
                       selectedFuel = value;
                     });
                   },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintText: 'Fuel',
-                    labelText: 'Fuel',
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
                 ),
                 const Gap(15),
-                DropdownButtonFormField<String>(
+                customDropdownField(
+                  labelText: 'Seater',
+                  hintText: 'Seater',
                   value: selectedSeat,
-                  items: ['2', '4', '5', '7', '8']
-                      .map((String seater) => DropdownMenuItem<String>(
-                            value: seater,
-                            child: Text(seater),
-                          ))
-                      .toList(),
+                  items: ['2', '4', '5', '7', '8'],
                   onChanged: (String? value) {
                     setState(() {
                       selectedSeat = value;
                     });
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintText: 'Seater',
-                    labelText: 'Seater',
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Value is empty';
-                    } else {
-                      return null;
-                    }
                   },
                 ),
                 const Gap(15),
@@ -142,81 +114,59 @@ class _AddCArState extends State<AddCAr> {
                   keyboardType: TextInputType.number,
                 ),
                 const Gap(15),
-                if (imagepath != null)
-                  SizedBox(
-                    height: 150,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.file(
-                            imagepath!,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: pickImageFromGallery,
-                            color: Colors.amber,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Colors.amber,
-                    fixedSize: const Size(200, 5),
-                  ),
-                  onPressed: () {
-                    pickImageFromGallery();
-                  },
-                  child: const Text(
-                    'ADD IMAGE',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 10, 47, 39),
-                    ),
-                  ),
+                if (imagepath != null) buildSelectedImage(),
+                customElevatedButton(
+                  onPressed: pickImageFromGallery,
+                  label: 'ADD IMAGE',
                 ),
                 const Gap(15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          backgroundColor:
-                              const Color.fromARGB(255, 10, 47, 39),
-                          fixedSize: const Size(300, 30),
-                        ),
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            saveDetails();
-                          } else {
-                            // print('Data empty');
-                          }
-                        },
-                        child: const Text(
-                          'SAVE DETAILS',
-                          style: TextStyle(color: Colors.amber),
-                        )),
-                  ],
-                )
+                customElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      saveDetails();
+                    } else {
+                      // print('Data empty');
+                    }
+                  },
+                  label: 'SAVE DETAILS',
+                  backgroundColor: const Color.fromARGB(255, 10, 47, 39),
+                  labelColor: Colors.amber,
+                  width: 300,
+                  height: 30,
+                ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildSelectedImage() {
+    return SizedBox(
+      height: 150,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.file(
+              imagepath!,
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: pickImageFromGallery,
+              color: Colors.amber,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -271,7 +221,6 @@ class _AddCArState extends State<AddCAr> {
     monthlyrentController.clear();
     vehiclenameController.clear();
     vehicleRegController.clear();
-    // seaterController.clear();
     dailyrentController.clear();
     setState(() {
       imagepath = null;

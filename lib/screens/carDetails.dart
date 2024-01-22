@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:snapdrive/controller/db_functions.dart';
 import 'package:snapdrive/db/box.dart';
-// import 'package:snapdrive/controller/db_functions.dart';
 import 'package:snapdrive/db/datamodel.dart';
-// import 'package:snapdrive/screens/addcar.dart';
+import 'package:snapdrive/screens/home.dart';
 import 'package:snapdrive/screens/updatecar.dart';
-// import 'package:snapdrive/screens/addcar.dart';
 
 // ignore: camel_case_types
 class cardetails extends StatefulWidget {
@@ -208,16 +206,34 @@ class _MyWidgetState extends State<cardetails> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          // final data = carsList[index];
-                          // print('Car ID before deletion: ${widget.cars.id}');
-                          // if (widget.cars.id != null) {
-                          //   deleteCar(widget.cars.id!);
-                          //   Navigator.of(context).pop();
-                          // } else {
-                          //   print('Cant delete, car ID is null.');
-                          // }
-                          deletecar(widget.cars);
-                          Navigator.of(context).pop();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              // Return an alert dialog
+                              return AlertDialog(
+                                title: const Text("Confirm Deletion"),
+                                content: const Text(
+                                    "Are you sure you want to delete this car?"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      // Close the dialog
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text("CANCEL"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      deletecar(widget.cars);
+                                      Navigator.popUntil(
+                                          context, (route) => route.isFirst);
+                                    },
+                                    child: const Text("DELETE"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber,

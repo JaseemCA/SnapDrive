@@ -8,6 +8,7 @@ import 'package:snapdrive/screens/addcar.dart';
 import 'package:snapdrive/screens/availablecarslist.dart';
 import 'package:snapdrive/screens/login.dart';
 import 'package:snapdrive/screens/rentOutcarlist.dart';
+import 'package:snapdrive/screens/searchScreen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -30,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 240, 251, 252),
+        backgroundColor: const Color.fromARGB(255, 240, 251, 252),
         appBar: AppBar(
           bottom: const TabBar(
             tabs: [
@@ -84,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [Availablecars(), Rentoutcars()],
         ),
         floatingActionButton: FloatingActionButton.extended(
@@ -144,6 +145,10 @@ class _MyHomePageState extends State<MyHomePage> {
             setState(
               () {
                 indexNum = index;
+                if (index == 1) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SearchScreen()));
+                }
               },
             );
           },

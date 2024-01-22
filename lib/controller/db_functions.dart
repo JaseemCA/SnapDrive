@@ -46,3 +46,35 @@ Future<void> deleteCustomer(CustomerModel modelCustomer) async {
   await modelCustomer.delete();
   getAllCustomers();
 }
+
+List<CarModel> searchCars(String query) {
+  final carDB = Hive.box<CarModel>('car_db');
+  final List<CarModel> allCars = carDB.values.toList();
+
+  if (query.isEmpty) {
+    return allCars;
+  }
+
+  final List<CarModel> searchResults = allCars
+      .where(
+          (car) => car.vehiclename.toLowerCase().contains(query.toLowerCase()))
+      .toList();
+
+  return searchResults;
+}
+
+List<CustomerModel> searchCustomers(String query) {
+  final customerDB = Hive.box<CustomerModel>('customer_db');
+  final List<CustomerModel> allCustomers = customerDB.values.toList();
+
+  if (query.isEmpty) {
+    return allCustomers;
+  }
+
+  final List<CustomerModel> searchResults = allCustomers
+      .where((customer) =>
+          customer.customerName.toLowerCase().contains(query.toLowerCase()))
+      .toList();
+
+  return searchResults;
+}

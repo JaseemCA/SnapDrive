@@ -1,15 +1,10 @@
-// import 'dart:ffi';
-
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:gap/gap.dart';
 import 'package:snapdrive/components/custom_text_field.dart';
 import 'package:snapdrive/controller/db_functions.dart';
 import 'package:snapdrive/db/datamodel.dart';
-import 'package:snapdrive/screens/addcar.dart';
-import 'package:snapdrive/screens/rentOutcarlist.dart';
 
 class AddCustomer extends StatefulWidget {
   final CarModel? selectedCar;
@@ -33,17 +28,16 @@ File? imagepath;
 
 TimeOfDay timeOfDay = TimeOfDay.now();
 
+final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
 class _AddCustomerState extends State<AddCustomer> {
   @override
   void initState() {
     super.initState();
     if (widget.selectedCar != null) {
-      // Populate text fields with data from the selected CarModel
       carnameController.text = widget.selectedCar!.vehiclename;
       carRegController.text = widget.selectedCar!.vehicleReg;
       selectedImage = widget.selectedCar!.selectedImage;
-      // imagepath = widget.selectedCar!.selectedImage as File;
-      // Add similar lines for other fields if needed
     }
   }
 
@@ -64,17 +58,6 @@ class _AddCustomerState extends State<AddCustomer> {
                   )
                 : Container(),
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                // Handle edit image action
-              },
-              color: Colors.amber,
-            ),
-          ),
         ],
       ),
     );
@@ -82,7 +65,6 @@ class _AddCustomerState extends State<AddCustomer> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.selectedCar!.selectedImage);
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
@@ -91,18 +73,22 @@ class _AddCustomerState extends State<AddCustomer> {
           ),
         ),
         leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-            )),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         title: const Text(
           "ADD CUSTOMER",
           style: TextStyle(
-              color: Colors.amber, fontSize: 16, fontWeight: FontWeight.bold),
+            color: Colors.amber,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: const Color.fromARGB(255, 10, 47, 39),
       ),
@@ -123,10 +109,11 @@ class _AddCustomerState extends State<AddCustomer> {
                 ),
                 const Gap(15),
                 CustomTextField(
-                    labelText: 'Car reg Number',
-                    hintText: 'Car Reg Number',
-                    keyboardType: TextInputType.text,
-                    controller: carRegController),
+                  labelText: 'Car reg Number',
+                  hintText: 'Car Reg Number',
+                  keyboardType: TextInputType.text,
+                  controller: carRegController,
+                ),
                 const Gap(15),
                 CustomTextField(
                   labelText: 'customer Name',
@@ -135,21 +122,43 @@ class _AddCustomerState extends State<AddCustomer> {
                   keyboardType: TextInputType.text,
                 ),
                 const Gap(15),
-                CustomTextField(
-                  labelText: 'Mobile Number',
-                  hintText: 'Mobile Number',
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Mobile Number',
+                    hintText: 'Mobile Number',
+                  ),
                   controller: mobileNumberController,
                   keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a mobile number';
+                    }
+                    if (value.length != 10) {
+                      return 'Mobile number must be 10 digits';
+                    }
+                    return null;
+                  },
                 ),
                 const Gap(15),
-                CustomTextField(
-                  labelText: 'License Number',
-                  hintText: 'License Number',
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'License Number',
+                    hintText: 'License Number',
+                  ),
                   controller: licenseNumberController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a license number';
+                    }
+                    if (!RegExp(r'^[A-Z]{2}\d{2}\d{4}\d{7}$').hasMatch(value)) {
+                      return 'Invalid license number';
+                    }
+                    return null;
+                  },
                 ),
                 const Gap(15),
-                TextField(
+                TextFormField(
                   decoration: const InputDecoration(
                     icon: Icon(Icons.calendar_today_rounded),
                     labelText: 'Pickup Date',
@@ -157,21 +166,30 @@ class _AddCustomerState extends State<AddCustomer> {
                   ),
                   controller: pickupdate,
                   onTap: () async {
-                    DateTime? pickeddate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2100));
-                    if (pickeddate != null) {
-                      setState(() {
-                        pickupdate.text =
-                            DateFormat('dd-MM-yyyy').format(pickeddate);
-                      });
+                    DateTime currentDate = DateTime.now();
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: currentDate,
+                      firstDate: currentDate,
+                      lastDate: DateTime(2100),
+                    );
+
+                    if (pickedDate != null) {
+                      pickupdate.text =
+                          DateFormat('dd-MM-yyyy').format(pickedDate);
+                      // Perform validation when the user picks a date
+                      formKey.currentState?.validate();
                     }
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please pick a date';
+                    }
+                    return null;
                   },
                 ),
                 const Gap(15),
-                TextField(
+                TextFormField(
                   decoration: const InputDecoration(
                     icon: Icon(Icons.calendar_today_rounded),
                     labelText: 'Pickup Time',
@@ -179,20 +197,27 @@ class _AddCustomerState extends State<AddCustomer> {
                   ),
                   controller: pickupTime,
                   onTap: () async {
+                    TimeOfDay currentTime = TimeOfDay.now();
                     TimeOfDay? pickedTime = await showTimePicker(
                       context: context,
-                      initialTime: timeOfDay,
+                      initialTime: currentTime,
                     );
+
                     if (pickedTime != null) {
-                      setState(() {
-                        timeOfDay = pickedTime;
-                        pickupTime.text = pickedTime.format(context);
-                      });
+                      pickupTime.text = pickedTime.format(context);
+
+                      formKey.currentState?.validate();
                     }
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please pick a time';
+                    }
+                    return null;
                   },
                 ),
                 const Gap(15),
-                TextField(
+                TextFormField(
                   decoration: const InputDecoration(
                     icon: Icon(Icons.calendar_today_rounded),
                     labelText: 'Drop Off Date',
@@ -200,17 +225,26 @@ class _AddCustomerState extends State<AddCustomer> {
                   ),
                   controller: dropOffDate,
                   onTap: () async {
-                    DateTime? pickeddate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2100));
-                    if (pickeddate != null) {
-                      setState(() {
-                        dropOffDate.text =
-                            DateFormat('dd-MM-yyyy').format(pickeddate);
-                      });
+                    DateTime currentDate = DateTime.now();
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: currentDate,
+                      firstDate: currentDate,
+                      lastDate: DateTime(2100),
+                    );
+
+                    if (pickedDate != null) {
+                      dropOffDate.text =
+                          DateFormat('dd-MM-yyyy').format(pickedDate);
+                      // Perform validation when the user picks a drop-off date
+                      formKey.currentState?.validate();
                     }
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please pick a drop-off date';
+                    }
+                    return null;
                   },
                 ),
                 const Gap(15),
@@ -225,25 +259,27 @@ class _AddCustomerState extends State<AddCustomer> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          backgroundColor:
-                              const Color.fromARGB(255, 10, 47, 39),
-                          fixedSize: const Size(300, 30),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            saveCus();
-                          } else {
-                            // print('Data empty');
-                          }
-                        },
-                        child: const Text(
-                          'SAVE DETAILS',
-                          style: TextStyle(color: Colors.amber),
-                        )),
+                        backgroundColor: const Color.fromARGB(255, 10, 47, 39),
+                        fixedSize: const Size(300, 30),
+                      ),
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          saveCus();
+                          deletecar(widget.selectedCar!);
+                        } else {
+                          // Form validation failed
+                          // Display error or handle as needed
+                        }
+                      },
+                      child: const Text(
+                        'SAVE DETAILS',
+                        style: TextStyle(color: Colors.amber),
+                      ),
+                    ),
                   ],
                 )
               ],
@@ -277,6 +313,7 @@ class _AddCustomerState extends State<AddCustomer> {
         dropOffDaten.isEmpty) {
       return;
     }
+
     final customerA = CustomerModel(
       carname: carname,
       carReg: carReg,

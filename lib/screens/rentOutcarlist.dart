@@ -40,7 +40,7 @@ class _RentoutcarsState extends State<Rentoutcars> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 240, 251, 252),
+      backgroundColor: const Color.fromARGB(255, 240, 251, 252),
       body: ValueListenableBuilder<Box<CustomerModel>>(
           valueListenable: Boxes.getCustomerData().listenable(),
           builder: (context, box, _) {
