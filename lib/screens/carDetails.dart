@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:snapdrive/controller/db_functions.dart';
 import 'package:snapdrive/db/box.dart';
 import 'package:snapdrive/db/datamodel.dart';
-import 'package:snapdrive/screens/home.dart';
+// import 'package:snapdrive/screens/home.dart';
 import 'package:snapdrive/screens/updatecar.dart';
 
 // ignore: camel_case_types
@@ -58,7 +58,6 @@ class _MyWidgetState extends State<cardetails> {
       body: ValueListenableBuilder<Box<CarModel>>(
           valueListenable: Boxes.getData().listenable(),
           builder: (context, box, _) {
-            // var data = box.values.toList().cast<CarModel>();
             return SingleChildScrollView(
               child: Column(
                 children: [

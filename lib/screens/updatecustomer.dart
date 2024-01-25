@@ -1,42 +1,57 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:snapdrive/components/custom_text_field.dart';
 import 'package:snapdrive/controller/db_functions.dart';
 import 'package:snapdrive/db/datamodel.dart';
+import 'package:snapdrive/screens/addcar.dart';
 
-class AddCustomer extends StatefulWidget {
-  final CarModel? selectedCar;
-  const AddCustomer({super.key, this.selectedCar});
+class Updatecustomer extends StatefulWidget {
+  final CustomerModel customer;
+  const Updatecustomer({super.key, required this.customer});
 
   @override
-  State<AddCustomer> createState() => _AddCustomerState();
+  State<Updatecustomer> createState() => _MyWidgetState();
 }
 
-final carnameController = TextEditingController();
-final carRegController = TextEditingController();
-final customerNameController = TextEditingController();
-final mobileNumberController = TextEditingController();
-final licenseNumberController = TextEditingController();
-final pickupdate = TextEditingController();
-final pickupTime = TextEditingController();
-final dropOffDate = TextEditingController();
-final securityDepositController = TextEditingController();
-String? selectedImage;
-File? imagepath;
-
-final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-class _AddCustomerState extends State<AddCustomer> {
+class _MyWidgetState extends State<Updatecustomer> {
+  var carnameController = TextEditingController();
+  var carRegController = TextEditingController();
+  var customerNameController = TextEditingController();
+  var mobileNumberController = TextEditingController();
+  var licenseNumberController = TextEditingController();
+  var pickupdate = TextEditingController();
+  var pickupTime = TextEditingController();
+  var dropOffDate = TextEditingController();
+  var securityDepositController = TextEditingController();
+  String? selectedImage;
+  File? imagepath;
   @override
   void initState() {
+    carnameController = TextEditingController();
+    carRegController = TextEditingController();
+    customerNameController = TextEditingController();
+    mobileNumberController = TextEditingController();
+    licenseNumberController = TextEditingController();
+    pickupdate = TextEditingController();
+    pickupTime = TextEditingController();
+    dropOffDate = TextEditingController();
+    securityDepositController = TextEditingController();
+    selectedImage = null;
+
+    carnameController.text = widget.customer.carname;
+    carRegController.text = widget.customer.carReg;
+    customerNameController.text = widget.customer.customerName;
+    mobileNumberController.text = widget.customer.mobileNumber;
+    licenseNumberController.text = widget.customer.licenseNumber;
+    selectedImage = widget.customer.selectedImage;
+    pickupdate.text = widget.customer.pickupdate;
+    pickupTime.text = widget.customer.pickupTime;
+    dropOffDate.text = widget.customer.dropOffDate;
+    securityDepositController.text = widget.customer.securityDeposit;
     super.initState();
-    if (widget.selectedCar != null) {
-      carnameController.text = widget.selectedCar!.vehiclename;
-      carRegController.text = widget.selectedCar!.vehicleReg;
-      selectedImage = widget.selectedCar!.selectedImage;
-    }
   }
 
   Widget _buildSelectedImage() {
@@ -81,7 +96,7 @@ class _AddCustomerState extends State<AddCustomer> {
         ),
         centerTitle: true,
         title: const Text(
-          "ADD CUSTOMER",
+          "UPDATE CAR",
           style: TextStyle(
             color: Colors.amber,
             fontSize: 16,
@@ -104,7 +119,6 @@ class _AddCustomerState extends State<AddCustomer> {
                   hintText: 'Car Name',
                   controller: carnameController,
                   keyboardType: TextInputType.text,
-                  enabled: false,
                 ),
                 const Gap(15),
                 CustomTextField(
@@ -112,7 +126,6 @@ class _AddCustomerState extends State<AddCustomer> {
                   hintText: 'Car Reg Number',
                   keyboardType: TextInputType.text,
                   controller: carRegController,
-                  enabled: false,
                 ),
                 const Gap(15),
                 CustomTextField(
@@ -266,17 +279,26 @@ class _AddCustomerState extends State<AddCustomer> {
                         backgroundColor: const Color.fromARGB(255, 10, 47, 39),
                         fixedSize: const Size(300, 30),
                       ),
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          saveCus();
-                          deletecar(widget.selectedCar!);
-                        } else {
-                          // Form validation failed
-                          // Display error or handle as needed
-                        }
+                      onPressed: () async {
+                        widget.customer.carname = carnameController.text;
+                        widget.customer.carReg = carRegController.text;
+                        widget.customer.customerName =
+                            customerNameController.text;
+                        widget.customer.mobileNumber =
+                            mobileNumberController.text;
+                        widget.customer.licenseNumber =
+                            licenseNumberController.text;
+                        widget.customer.pickupdate = pickupTime.text;
+                        widget.customer.pickupTime = pickupTime.text;
+                        widget.customer.dropOffDate = dropOffDate.text;
+                        widget.customer.securityDeposit =
+                            securityDepositController.text;
+                        widget.customer.selectedImage = selectedImage;
+                        await widget.customer.save();
+                        Navigator.pop(context);
                       },
                       child: const Text(
-                        'SAVE DETAILS',
+                        'UPDATE DETAILS',
                         style: TextStyle(color: Colors.amber),
                       ),
                     ),
@@ -288,57 +310,5 @@ class _AddCustomerState extends State<AddCustomer> {
         ),
       ),
     );
-  }
-
-  Future<void> saveCus() async {
-    final carname = carnameController.text.trim();
-    final carReg = carRegController.text.trim();
-    final customerName = customerNameController.text.trim();
-    final mobileNumber = mobileNumberController.text.trim();
-    final licenseNumber = licenseNumberController.text.trim();
-    final securityDeposit = securityDepositController.text.trim();
-    final pickupdaten = pickupdate.text.trim();
-    final pickupTimen = pickupTime.text.trim();
-    final dropOffDaten = dropOffDate.text.trim();
-    final imagepath = widget.selectedCar!.selectedImage;
-
-    if (carname.isEmpty ||
-        carReg.isEmpty ||
-        customerName.isEmpty ||
-        mobileNumber.isEmpty ||
-        licenseNumber.isEmpty ||
-        securityDeposit.isEmpty ||
-        pickupdaten.isEmpty ||
-        pickupTimen.isEmpty ||
-        dropOffDaten.isEmpty) {
-      return;
-    }
-
-    final customerA = CustomerModel(
-      carname: carname,
-      carReg: carReg,
-      customerName: customerName,
-      mobileNumber: mobileNumber,
-      licenseNumber: licenseNumber,
-      pickupdate: pickupdaten,
-      pickupTime: pickupTimen,
-      dropOffDate: dropOffDaten,
-      securityDeposit: securityDeposit,
-      selectedImage: imagepath,
-    );
-
-    await addCustomer(customerA);
-
-    Navigator.pop(context);
-
-    customerNameController.clear();
-    carRegController.clear();
-    carnameController.clear();
-    mobileNumberController.clear();
-    licenseNumberController.clear();
-    pickupdate.clear();
-    pickupTime.clear();
-    dropOffDate.clear();
-    securityDepositController.clear();
   }
 }

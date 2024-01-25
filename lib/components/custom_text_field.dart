@@ -6,12 +6,14 @@ class CustomTextField extends StatelessWidget {
   String? labelText;
   TextEditingController? controller;
   TextInputType? keyboardType;
+  bool enabled;
 
   CustomTextField({
     required this.labelText,
     required this.hintText,
     required this.controller,
     this.keyboardType,
+    this.enabled = true,
     super.key,
   });
 
@@ -19,6 +21,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      enabled: enabled,
       decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),

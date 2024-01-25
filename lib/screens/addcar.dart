@@ -29,6 +29,7 @@ class _AddCArState extends State<AddCAr> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 240, 251, 252),
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -115,6 +116,7 @@ class _AddCArState extends State<AddCAr> {
                 ),
                 const Gap(15),
                 if (imagepath != null) buildSelectedImage(),
+                const Gap(15),
                 customElevatedButton(
                   onPressed: pickImageFromGallery,
                   label: 'ADD IMAGE',

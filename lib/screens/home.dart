@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
               )),
               Tab(
                 child: Text(
-                  "Rent out",
+                  "Rent out cars",
                   style: TextStyle(fontSize: 18),
                 ),
               ),
@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
               showDialog(
                   context: context,
                   builder: (context) {
-                    Future.delayed(const Duration(seconds: 2), () {
+                    Future.delayed(const Duration(seconds: 5), () {
                       Navigator.of(context).pop(true);
                     });
                     return AlertDialog(
@@ -146,8 +146,10 @@ class _MyHomePageState extends State<MyHomePage> {
               () {
                 indexNum = index;
                 if (index == 1) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SearchScreen()));
                 }
               },
             );

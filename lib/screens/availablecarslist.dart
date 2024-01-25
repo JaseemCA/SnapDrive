@@ -43,69 +43,151 @@ class _AvailablecarsState extends State<Availablecars> {
             return ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {
+                bool isLastItem = index == data.length - 1;
                 return Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Card(
-                    color: Colors.white,
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage:
-                            FileImage(File(data[index].selectedImage)),
-                        radius: 30,
-                      ),
-                      title: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          data[index].vehiclename,
-                          style: const TextStyle(fontWeight: FontWeight.w600),
+                  padding: EdgeInsets.only(
+                    bottom: isLastItem ? 75 : 0,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Card(
+                      color: Colors.white,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage:
+                              FileImage(File(data[index].selectedImage)),
+                          radius: 30,
                         ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          ' ₹ ${data[index].dailyrent}/DAY ',
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        title: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            data[index].vehiclename,
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
                         ),
-                      ),
-                      trailing: Container(
-                        width: 28,
-                        height: 65,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 10, 47, 39),
-                          borderRadius: BorderRadius.circular(20),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            ' ₹ ${data[index].dailyrent}/DAY ',
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
+                        trailing: Container(
+                          width: 28,
+                          height: 65,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 10, 47, 39),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (ctx) => AddCustomer(
-                                          selectedCar: data[index])));
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (ctx) =>
+                                          AddCustomer(selectedCar: data[index]),
+                                    ),
+                                  );
                                 },
                                 icon: const Icon(
                                   Icons.arrow_forward_ios,
                                   color: Colors.amber,
                                   size: 15,
-                                ))
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => cardetails(
-                              cars: data[index],
-                            ),
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  cardetails(cars: data[index]),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 );
               },
             );
+
+            // return Padding(
+            //   padding: const EdgeInsets.only(
+            //     bottom: 50,
+            //   ),
+            //   child: ListView.builder(
+            //     itemCount: data.length,
+            //     itemBuilder: (context, index) {
+            //       return Padding(
+            //         padding: const EdgeInsets.all(5),
+            //         child: Card(
+            //           color: Colors.white,
+            //           child: ListTile(
+            //             leading: CircleAvatar(
+            //               backgroundImage:
+            //                   FileImage(File(data[index].selectedImage)),
+            //               radius: 30,
+            //             ),
+            //             title: Padding(
+            //               padding: const EdgeInsets.only(left: 10),
+            //               child: Text(
+            //                 data[index].vehiclename,
+            //                 style: const TextStyle(fontWeight: FontWeight.w600),
+            //               ),
+            //             ),
+            //             subtitle: Padding(
+            //               padding: const EdgeInsets.only(left: 10),
+            //               child: Text(
+            //                 ' ₹ ${data[index].dailyrent}/DAY ',
+            //                 style: const TextStyle(fontWeight: FontWeight.w500),
+            //               ),
+            //             ),
+            //             trailing: Container(
+            //               width: 28,
+            //               height: 65,
+            //               decoration: BoxDecoration(
+            //                 color: const Color.fromARGB(255, 10, 47, 39),
+            //                 borderRadius: BorderRadius.circular(20),
+            //               ),
+            //               child: Column(
+            //                 mainAxisAlignment: MainAxisAlignment.center,
+            //                 children: [
+            //                   IconButton(
+            //                       onPressed: () {
+            //                         Navigator.of(context).push(
+            //                             MaterialPageRoute(
+            //                                 builder: (ctx) => AddCustomer(
+            //                                     selectedCar: data[index])));
+            //                       },
+            //                       icon: const Icon(
+            //                         Icons.arrow_forward_ios,
+            //                         color: Colors.amber,
+            //                         size: 15,
+            //                       ))
+            //                 ],
+            //               ),
+            //             ),
+            //             onTap: () {
+            //               Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                   builder: (context) => cardetails(
+            //                     cars: data[index],
+            //                   ),
+            //                 ),
+            //               );
+            //             },
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // );
           }
         },
       ),

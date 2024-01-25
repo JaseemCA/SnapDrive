@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snapdrive/components/custom_text_field.dart';
+import 'package:snapdrive/components/customdropdown.dart';
+import 'package:snapdrive/components/customelevated.dart';
 import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/addcar.dart';
 
@@ -94,63 +96,27 @@ class UpdatecarState extends State<Updatecar> {
                   controller: vehicleRegController,
                 ),
                 const Gap(15),
-                DropdownButtonFormField<String>(
+                customDropdownField(
+                  labelText: 'Fuel',
+                  hintText: 'Fuel',
                   value: selectedFuel,
-                  items: ['Petrol', 'Diesel', 'EV'].map((String fuelType) {
-                    return DropdownMenuItem<String>(
-                      value: fuelType,
-                      child: Text(fuelType),
-                    );
-                  }).toList(),
+                  items: ['Petrol', 'Diesel', 'EV'],
                   onChanged: (String? value) {
                     setState(() {
                       selectedFuel = value;
                     });
                   },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintText: 'Fuel',
-                    labelText: 'Fuel',
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
                 ),
                 const Gap(15),
-                DropdownButtonFormField<String>(
+                customDropdownField(
+                  labelText: 'Seater',
+                  hintText: 'Seater',
                   value: selectedSeat,
-                  items: ['2', '4', '5', '7', '8']
-                      .map((String seater) => DropdownMenuItem<String>(
-                            value: seater,
-                            child: Text(seater),
-                          ))
-                      .toList(),
+                  items: ['2', '4', '5', '7', '8'],
                   onChanged: (String? value) {
                     setState(() {
                       selectedSeat = value;
                     });
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    hintText: 'Seater',
-                    labelText: 'Seater',
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Value is empty';
-                    } else {
-                      return null;
-                    }
                   },
                 ),
                 const Gap(15),
@@ -195,21 +161,10 @@ class UpdatecarState extends State<Updatecar> {
                       ],
                     ),
                   ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Colors.amber,
-                    fixedSize: const Size(200, 5),
-                  ),
+                const Gap(15),
+                customElevatedButton(
                   onPressed: pickImageFromGallery,
-                  child: const Text(
-                    'ADD IMAGE',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 10, 47, 39),
-                    ),
-                  ),
+                  label: 'ADD IMAGE',
                 ),
                 const Gap(15),
                 Row(

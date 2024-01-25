@@ -20,6 +20,11 @@ class _SearchScreenState extends State<SearchScreen> {
   int indexNum = 0;
   List<CarModel> searchCarResults = [];
   List<CustomerModel> searchCustomerResults = [];
+  @override
+  void initState() {
+    super.initState();
+    performSearch('');
+  }
 
   void performSearch(String query) {
     setState(() {
@@ -31,6 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 240, 251, 252),
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -82,7 +88,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       radius: 30,
                     ),
                     title: Text(car.vehiclename),
-                    subtitle: Text(car.vehicleReg),
+                    subtitle: Text(
+                      ' ₹ ${car.dailyrent}/DAY -AVAILABLE FOR RENT-',
+                    ),
                   ),
                 const Gap(10),
                 for (var customer in searchCustomerResults)
@@ -91,9 +99,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       backgroundImage: FileImage(File(customer.selectedImage!)),
                       radius: 30,
                     ),
-                    title: Text(
-                      customer.customerName,
-                    ),
+                    title: Text(customer.customerName),
                     subtitle: Text(customer.carname),
                   ),
               ],
