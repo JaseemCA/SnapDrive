@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:snapdrive/db/box.dart';
 import 'package:snapdrive/db/datamodel.dart';
-import 'package:snapdrive/screens/customerDetails.dart';
+import 'package:snapdrive/screens/customer_details.dart';
+import 'package:snapdrive/screens/dropofdetails.dart';
 
 class Rentoutcars extends StatefulWidget {
   final CarModel? selectedCar;
+  // final CarModel carModel;
+
   const Rentoutcars({
     super.key,
     this.selectedCar,
+    // required this.carModel,
   });
 
   @override
@@ -100,7 +104,17 @@ class _RentoutcarsState extends State<Rentoutcars> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                Dropoffdetails(
+                                              customer: data[index],
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       icon: const Icon(
                                         Icons.arrow_forward_ios,
                                         color: Colors.amber,

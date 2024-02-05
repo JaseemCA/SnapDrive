@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:snapdrive/db/box.dart';
 import 'package:snapdrive/db/datamodel.dart';
 
 ValueNotifier<List<CarModel>> carListNotifier = ValueNotifier([]);
@@ -42,11 +43,6 @@ Future<void> deletecar(CarModel modelcar) async {
   getAllCars();
 }
 
-// Future<void> deleteCustomer(CustomerModel modelCustomer) async {
-//   await modelCustomer.delete();
-//   getAllCustomers();
-// }
-
 List<CarModel> searchCars(String query) {
   final carDB = Hive.box<CarModel>('car_db');
   final List<CarModel> allCars = carDB.values.toList();
@@ -78,4 +74,35 @@ List<CustomerModel> searchCustomers(String query) {
       .toList();
 
   return searchResults;
+}
+
+List<CarModel> removedCarsList = [];
+void removeCarFromScreen(CarModel car) {
+  removedCarsList.add(car);
+  carListNotifier.value.remove(car);
+  Boxes.getData().delete(car.key);
+  carListNotifier.notifyListeners();
+}
+
+List<CarModel> getRemovedCars() {
+  return removedCarsList;
+}
+
+void clearRemovedCars() {
+  removedCarsList.clear();
+}
+
+List<CustomerModel> removedCustomersList = [];
+void removeCustomerFromScreen(CustomerModel customer) {
+  removedCustomersList.add(customer);
+  customerListNotifier.value.remove(customer);
+  Boxes.getCustomerData().delete(customer.key);
+}
+
+List<CustomerModel> getRemovedCustomers() {
+  return removedCustomersList;
+}
+
+void clearRemovedCustomers() {
+  removedCustomersList.clear();
 }

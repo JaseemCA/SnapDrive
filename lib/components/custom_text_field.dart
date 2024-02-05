@@ -7,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   TextEditingController? controller;
   TextInputType? keyboardType;
   bool enabled;
+  TextStyle? textStyle;
 
   CustomTextField({
     required this.labelText,
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.enabled = true,
     super.key,
+    this.textStyle,
   });
 
   @override

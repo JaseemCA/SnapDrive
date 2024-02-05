@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/home.dart';
 import 'package:snapdrive/main.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({
+    super.key,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -139,8 +142,10 @@ class _LoginPageState extends State<LoginPage> {
       final sharedPref = await SharedPreferences.getInstance();
       await sharedPref.setBool(saveKey, true);
 
-      Navigator.of(ctx).pushReplacement(
-          MaterialPageRoute(builder: (ctx) => MyHomePage(title: 'home')));
+      Navigator.of(ctx).pushReplacement(MaterialPageRoute(
+          builder: (ctx) => MyHomePage(
+                title: 'home',
+              )));
     } else {
       ScaffoldMessenger.of(ctx).showSnackBar(
         const SnackBar(

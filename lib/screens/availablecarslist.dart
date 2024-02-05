@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+// import 'package:snapdrive/controller/db_functions.dart';
 import 'package:snapdrive/db/box.dart';
 import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/addcustomer.dart';
-import 'package:snapdrive/screens/carDetails.dart';
+import 'package:snapdrive/screens/car_details.dart';
 
 class Availablecars extends StatefulWidget {
   const Availablecars({
@@ -16,14 +17,6 @@ class Availablecars extends StatefulWidget {
 }
 
 class _AvailablecarsState extends State<Availablecars> {
-  final vehiclenameController = TextEditingController();
-  final vehicleRegController = TextEditingController();
-  final dailyrentController = TextEditingController();
-  final monthlyrentController = TextEditingController();
-  File? imagepath;
-  String? selectedImage;
-  String? selectedFuel;
-  String? selectedSeat;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +25,7 @@ class _AvailablecarsState extends State<Availablecars> {
         valueListenable: Boxes.getData().listenable(),
         builder: (context, box, _) {
           var data = box.values.toList().cast<CarModel>();
+          // data.addAll(getRemovedCars());
           if (data.isEmpty) {
             return const Center(
               child: Text(
@@ -42,7 +36,7 @@ class _AvailablecarsState extends State<Availablecars> {
           } else {
             return ListView.builder(
               itemCount: data.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (context, int index) {
                 bool isLastItem = index == data.length - 1;
                 return Padding(
                   padding: EdgeInsets.only(
@@ -115,79 +109,6 @@ class _AvailablecarsState extends State<Availablecars> {
                 );
               },
             );
-
-            // return Padding(
-            //   padding: const EdgeInsets.only(
-            //     bottom: 50,
-            //   ),
-            //   child: ListView.builder(
-            //     itemCount: data.length,
-            //     itemBuilder: (context, index) {
-            //       return Padding(
-            //         padding: const EdgeInsets.all(5),
-            //         child: Card(
-            //           color: Colors.white,
-            //           child: ListTile(
-            //             leading: CircleAvatar(
-            //               backgroundImage:
-            //                   FileImage(File(data[index].selectedImage)),
-            //               radius: 30,
-            //             ),
-            //             title: Padding(
-            //               padding: const EdgeInsets.only(left: 10),
-            //               child: Text(
-            //                 data[index].vehiclename,
-            //                 style: const TextStyle(fontWeight: FontWeight.w600),
-            //               ),
-            //             ),
-            //             subtitle: Padding(
-            //               padding: const EdgeInsets.only(left: 10),
-            //               child: Text(
-            //                 ' ₹ ${data[index].dailyrent}/DAY ',
-            //                 style: const TextStyle(fontWeight: FontWeight.w500),
-            //               ),
-            //             ),
-            //             trailing: Container(
-            //               width: 28,
-            //               height: 65,
-            //               decoration: BoxDecoration(
-            //                 color: const Color.fromARGB(255, 10, 47, 39),
-            //                 borderRadius: BorderRadius.circular(20),
-            //               ),
-            //               child: Column(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: [
-            //                   IconButton(
-            //                       onPressed: () {
-            //                         Navigator.of(context).push(
-            //                             MaterialPageRoute(
-            //                                 builder: (ctx) => AddCustomer(
-            //                                     selectedCar: data[index])));
-            //                       },
-            //                       icon: const Icon(
-            //                         Icons.arrow_forward_ios,
-            //                         color: Colors.amber,
-            //                         size: 15,
-            //                       ))
-            //                 ],
-            //               ),
-            //             ),
-            //             onTap: () {
-            //               Navigator.push(
-            //                 context,
-            //                 MaterialPageRoute(
-            //                   builder: (context) => cardetails(
-            //                     cars: data[index],
-            //                   ),
-            //                 ),
-            //               );
-            //             },
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // );
           }
         },
       ),

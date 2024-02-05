@@ -72,12 +72,25 @@ class CustomerModel extends HiveObject {
   String securityDeposit;
 
   @HiveField(10)
-  String? selectedImage;
+  String selectedImage;
+
+  @HiveField(11)
+  String carDailyRent;
+
+  @HiveField(12)
+  String? carMonthlyRent;
+
+  @HiveField(13)
+  String? carfuel;
+
+  @HiveField(14)
+  String? carseater;
 
   CustomerModel({
     this.id,
     required this.carname,
     required this.carReg,
+    required this.carDailyRent,
     required this.customerName,
     required this.mobileNumber,
     required this.licenseNumber,
@@ -86,5 +99,8 @@ class CustomerModel extends HiveObject {
     required this.dropOffDate,
     required this.securityDeposit,
     required this.selectedImage,
+    this.carMonthlyRent,
+    this.carfuel,
+    this.carseater,
   });
 }

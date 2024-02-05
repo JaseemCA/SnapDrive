@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapdrive/controller/db_functions.dart';
+import 'package:snapdrive/db/datamodel.dart';
+// import 'package:snapdrive/db/datamodel.dart';
 // import 'package:snapdrive/db/datamodel.dart';
 // import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/addcar.dart';
 import 'package:snapdrive/screens/availablecarslist.dart';
 import 'package:snapdrive/screens/login.dart';
-import 'package:snapdrive/screens/rentOutcarlist.dart';
-import 'package:snapdrive/screens/searchScreen.dart';
+import 'package:snapdrive/screens/rent_outcarlist.dart';
+import 'package:snapdrive/screens/search_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -146,10 +148,8 @@ class _MyHomePageState extends State<MyHomePage> {
               () {
                 indexNum = index;
                 if (index == 1) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SearchScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SearchScreen()));
                 }
               },
             );
@@ -168,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // ignore: use_build_context_synchronously
     Navigator.of(ctx).pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (ctx) => const LoginPage(),
+        builder: (ctx) => LoginPage(),
       ),
       (route) => false,
     );

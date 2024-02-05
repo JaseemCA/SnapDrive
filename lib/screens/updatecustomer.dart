@@ -1,12 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:snapdrive/components/custom_text_field.dart';
-import 'package:snapdrive/controller/db_functions.dart';
 import 'package:snapdrive/db/datamodel.dart';
-import 'package:snapdrive/screens/addcar.dart';
 
 class Updatecustomer extends StatefulWidget {
   final CustomerModel customer;
@@ -17,8 +14,10 @@ class Updatecustomer extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<Updatecustomer> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var carnameController = TextEditingController();
   var carRegController = TextEditingController();
+  var carrentcontroller = TextEditingController();
   var customerNameController = TextEditingController();
   var mobileNumberController = TextEditingController();
   var licenseNumberController = TextEditingController();
@@ -30,6 +29,7 @@ class _MyWidgetState extends State<Updatecustomer> {
   File? imagepath;
   @override
   void initState() {
+    carrentcontroller = TextEditingController();
     carnameController = TextEditingController();
     carRegController = TextEditingController();
     customerNameController = TextEditingController();
@@ -39,8 +39,9 @@ class _MyWidgetState extends State<Updatecustomer> {
     pickupTime = TextEditingController();
     dropOffDate = TextEditingController();
     securityDepositController = TextEditingController();
-    selectedImage = null;
+    selectedImage = selectedImage;
 
+    carrentcontroller.text = widget.customer.carDailyRent;
     carnameController.text = widget.customer.carname;
     carRegController.text = widget.customer.carReg;
     customerNameController.text = widget.customer.customerName;
@@ -79,6 +80,7 @@ class _MyWidgetState extends State<Updatecustomer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 240, 251, 252),
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -96,7 +98,7 @@ class _MyWidgetState extends State<Updatecustomer> {
         ),
         centerTitle: true,
         title: const Text(
-          "UPDATE CAR",
+          "UPDATE CUSTOMER DETAILS",
           style: TextStyle(
             color: Colors.amber,
             fontSize: 16,
@@ -115,6 +117,7 @@ class _MyWidgetState extends State<Updatecustomer> {
                 _buildSelectedImage(),
                 const Gap(15),
                 CustomTextField(
+                  enabled: false,
                   labelText: 'Car Name',
                   hintText: 'Car Name',
                   controller: carnameController,
@@ -122,6 +125,7 @@ class _MyWidgetState extends State<Updatecustomer> {
                 ),
                 const Gap(15),
                 CustomTextField(
+                  enabled: false,
                   labelText: 'Car reg Number',
                   hintText: 'Car Reg Number',
                   keyboardType: TextInputType.text,
@@ -129,8 +133,14 @@ class _MyWidgetState extends State<Updatecustomer> {
                 ),
                 const Gap(15),
                 CustomTextField(
-                  labelText: 'customer Name',
-                  hintText: 'customer Name',
+                    enabled: false,
+                    labelText: 'Daily Rent',
+                    hintText: 'Daily Rent',
+                    controller: carrentcontroller),
+                const Gap(15),
+                CustomTextField(
+                  labelText: 'Customer Name',
+                  hintText: 'Customer Name',
                   controller: customerNameController,
                   keyboardType: TextInputType.text,
                 ),
@@ -190,7 +200,7 @@ class _MyWidgetState extends State<Updatecustomer> {
                     if (pickedDate != null) {
                       pickupdate.text =
                           DateFormat('dd-MM-yyyy').format(pickedDate);
-                      // Perform validation when the user picks a date
+
                       formKey.currentState?.validate();
                     }
                   },
@@ -204,7 +214,7 @@ class _MyWidgetState extends State<Updatecustomer> {
                 const Gap(15),
                 TextFormField(
                   decoration: const InputDecoration(
-                    icon: Icon(Icons.calendar_today_rounded),
+                    icon: Icon(Icons.access_time),
                     labelText: 'Pickup Time',
                     hintText: 'Pickup Time',
                   ),
@@ -249,7 +259,6 @@ class _MyWidgetState extends State<Updatecustomer> {
                     if (pickedDate != null) {
                       dropOffDate.text =
                           DateFormat('dd-MM-yyyy').format(pickedDate);
-                      // Perform validation when the user picks a drop-off date
                       formKey.currentState?.validate();
                     }
                   },
@@ -288,12 +297,12 @@ class _MyWidgetState extends State<Updatecustomer> {
                             mobileNumberController.text;
                         widget.customer.licenseNumber =
                             licenseNumberController.text;
-                        widget.customer.pickupdate = pickupTime.text;
+                        widget.customer.pickupdate = pickupdate.text;
                         widget.customer.pickupTime = pickupTime.text;
                         widget.customer.dropOffDate = dropOffDate.text;
                         widget.customer.securityDeposit =
                             securityDepositController.text;
-                        widget.customer.selectedImage = selectedImage;
+                        widget.customer.selectedImage = selectedImage!;
                         await widget.customer.save();
                         Navigator.pop(context);
                       },

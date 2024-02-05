@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/home.dart';
 // import 'package:snapdrive/home.dart';
 import 'package:snapdrive/screens/login.dart';
 import 'package:snapdrive/main.dart';
 
 class Splash extends StatefulWidget {
-  const Splash({super.key});
+  const Splash({
+    super.key,
+  });
 
   @override
   State<Splash> createState() => _SplashState();
@@ -48,7 +51,9 @@ class _SplashState extends State<Splash> {
     } else {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (ctx1) => const MyHomePage(title: 'home'),
+          builder: (ctx1) => MyHomePage(
+            title: 'home',
+          ),
         ),
       );
     }

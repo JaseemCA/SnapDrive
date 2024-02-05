@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snapdrive/components/custom_text_field.dart';
-import 'package:snapdrive/components/customdropdown.dart';
-import 'package:snapdrive/components/customelevated.dart';
+import 'package:snapdrive/components/custom_dropdown.dart';
+import 'package:snapdrive/components/custom_elevated.dart';
 import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/addcar.dart';
 

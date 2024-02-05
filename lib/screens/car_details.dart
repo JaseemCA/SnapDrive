@@ -65,7 +65,7 @@ class _MyWidgetState extends State<cardetails> {
                     padding: const EdgeInsets.only(
                         left: 90, right: 90, top: 20, bottom: 10),
                     child: Container(
-                      width: 220,
+                      width: 520,
                       height: 220,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -91,12 +91,13 @@ class _MyWidgetState extends State<cardetails> {
                         child: Image.file(
                           File(widget.cars.selectedImage),
                           fit: BoxFit.cover,
-                          width: 200,
-                          height: 200,
+                          width: 520,
+                          height: 220,
                         ),
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
                   Container(
                     width: 300,
                     height: 400,
@@ -199,7 +200,6 @@ class _MyWidgetState extends State<cardetails> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

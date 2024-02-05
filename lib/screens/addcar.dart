@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:snapdrive/components/customdropdown.dart';
-import 'package:snapdrive/components/customelevated.dart';
+import 'package:snapdrive/components/custom_dropdown.dart';
+import 'package:snapdrive/components/custom_elevated.dart';
 import 'package:snapdrive/components/custom_text_field.dart';
 import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/controller/db_functions.dart';
@@ -17,7 +17,7 @@ class AddCAr extends StatefulWidget {
 
 final vehiclenameController = TextEditingController();
 final vehicleRegController = TextEditingController();
-final dailyrentController = TextEditingController();
+final carrentcontroller = TextEditingController();
 final monthlyrentController = TextEditingController();
 File? imagepath;
 String? selectedImage;
@@ -104,7 +104,7 @@ class _AddCArState extends State<AddCAr> {
                 CustomTextField(
                   labelText: 'Daily Rent',
                   hintText: 'Daily Rent',
-                  controller: dailyrentController,
+                  controller: carrentcontroller,
                   keyboardType: TextInputType.number,
                 ),
                 const Gap(15),
@@ -188,7 +188,7 @@ class _AddCArState extends State<AddCAr> {
   Future<void> saveDetails() async {
     final vehiclename = vehiclenameController.text.trim();
     final vehicleReg = vehicleRegController.text.trim();
-    final dailyrent = dailyrentController.text.trim();
+    final dailyrent = carrentcontroller.text.trim();
     final monthlyrent = monthlyrentController.text.trim();
     if (imagepath == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -223,7 +223,7 @@ class _AddCArState extends State<AddCAr> {
     monthlyrentController.clear();
     vehiclenameController.clear();
     vehicleRegController.clear();
-    dailyrentController.clear();
+    carrentcontroller.clear();
     setState(() {
       imagepath = null;
       selectedFuel = null;
