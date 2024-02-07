@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapdrive/controller/db_functions.dart';
-import 'package:snapdrive/db/datamodel.dart';
-// import 'package:snapdrive/db/datamodel.dart';
-// import 'package:snapdrive/db/datamodel.dart';
-// import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/addcar.dart';
 import 'package:snapdrive/screens/availablecarslist.dart';
 import 'package:snapdrive/screens/login.dart';
+import 'package:snapdrive/screens/notification_screen.dart';
 import 'package:snapdrive/screens/rent_outcarlist.dart';
 import 'package:snapdrive/screens/search_screen.dart';
 
@@ -36,22 +32,24 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: const Color.fromARGB(255, 240, 251, 252),
         appBar: AppBar(
           bottom: const TabBar(
-            tabs: [
-              Tab(
-                  child: Text(
-                "Available cars",
-                style: TextStyle(fontSize: 18),
-              )),
-              Tab(
-                child: Text(
-                  "Rent out cars",
+              tabs: [
+                Tab(
+                    child: Text(
+                  "Available cars",
                   style: TextStyle(fontSize: 18),
+                )),
+                Tab(
+                  child: Text(
+                    "Rent out cars",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-            labelColor: Color.fromARGB(255, 252, 250, 249),
-            indicatorColor: Colors.white,
-          ),
+              ],
+              labelColor: Color.fromARGB(255, 250, 249, 249),
+              indicatorColor: Colors.amber,
+              unselectedLabelColor: Color.fromARGB(107, 253, 253, 252)),
           backgroundColor: const Color.fromARGB(255, 10, 47, 39),
           leading: IconButton(
             onPressed: () {
@@ -105,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.white,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30), // Set the radius here
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -144,16 +142,32 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
           currentIndex: indexNum,
           onTap: (index) {
-            setState(
-              () {
-                indexNum = index;
-                if (index == 1) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SearchScreen()));
-                }
-              },
-            );
+            setState(() {
+              indexNum = index;
+              if (index == 1) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SearchScreen()));
+              } else if (index == 3) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationScreen()));
+              }
+            });
           },
+          // onTap: (index) {
+          //   setState(
+          //     () {
+          //       indexNum = index;
+          //       if (index == 1) {
+          //         Navigator.push(context,
+          //             MaterialPageRoute(builder: (context) => SearchScreen()));
+          //       }
+          //     },
+          //   );
+          // },
         ),
       ),
     );

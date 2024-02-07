@@ -10,6 +10,7 @@ import 'package:snapdrive/screens/customer_details.dart';
 import 'package:snapdrive/screens/dropofdetails.dart';
 // import 'package:snapdrive/screens/addcar.dart';
 import 'package:snapdrive/screens/home.dart';
+import 'package:snapdrive/screens/notification_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({
@@ -229,9 +230,12 @@ class _SearchScreenState extends State<SearchScreen> {
               indexNum = index;
               if (index == 0) {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (ctx) => MyHomePage(
+                    builder: (ctx) => const MyHomePage(
                           title: 'home',
                         )));
+              } else if (index == 3) {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (ctx) => const NotificationScreen()));
               }
             },
           );

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:snapdrive/controller/db_functions.dart';
+
 import 'package:snapdrive/db/box.dart';
 import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/addcustomer.dart';
@@ -43,66 +43,113 @@ class _AvailablecarsState extends State<Availablecars> {
                     bottom: isLastItem ? 75 : 0,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(8.0),
                     child: Card(
                       color: Colors.white,
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage:
-                              FileImage(File(data[index].selectedImage)),
-                          radius: 30,
-                        ),
-                        title: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            data[index].vehiclename,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            ' ₹ ${data[index].dailyrent}/DAY ',
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        trailing: Container(
-                          width: 28,
-                          height: 65,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 10, 47, 39),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (ctx) =>
-                                          AddCustomer(selectedCar: data[index]),
+                      elevation: 5,
+                      child: SizedBox(
+                        height: 130,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => cardetails(
+                                      cars: data[index],
                                     ),
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.amber,
-                                  size: 15,
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: 170,
+                                  height: 130,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image: FileImage(
+                                        File(data[index].selectedImage),
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  cardetails(cars: data[index]),
                             ),
-                          );
-                        },
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10, left: 30),
+                                    child: Text(
+                                      data[index].vehiclename,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(top: 0, left: 30),
+                                    child: Text(
+                                      '  ${data[index].fuel} / ${data[index].seater} seater ',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(top: 5, left: 30),
+                                    child: Text(
+                                      ' ₹${data[index].dailyrent} / DAY',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 14,
+                                        color: Colors.teal,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 30, top: 10),
+                                    child: SizedBox(
+                                      height: 35,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (ctx) => AddCustomer(
+                                                selectedCar: data[index],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          elevation: 5,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          minimumSize: const Size(80, 40),
+                                          backgroundColor: const Color.fromARGB(
+                                              255, 10, 47, 39),
+                                          foregroundColor: Colors.amber,
+                                        ),
+                                        child: const Text(" RENT OUT "),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

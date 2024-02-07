@@ -285,23 +285,26 @@ class _DropfofdetailsState extends State<Dropoffdetails> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      backgroundColor:
-                                          const Color.fromARGB(255, 10, 47, 39),
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                    onPressed: () {
-                                      // getRemovedCars();
-                                      Navigator.pop(context);
-                                      removeCustomerFromScreen(widget.customer);
-                                      saveDetails();
-                                    },
-                                    child: const Text(
-                                      'DROP OFF',
-                                      style: TextStyle(color: Colors.amber),
-                                    ))
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 10, 47, 39),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16, horizontal: 52),
+                                  ),
+                                  onPressed: () {
+                                    // getRemovedCars();
+                                    Navigator.pop(context);
+                                    removeCustomerFromScreen(widget.customer);
+                                    saveDetails();
+                                  },
+                                  child: const Text(
+                                    'DROP OFF',
+                                    style: TextStyle(color: Colors.amber),
+                                  ),
+                                ),
                               ],
                             )
                           ],

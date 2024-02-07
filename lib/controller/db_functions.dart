@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:snapdrive/db/box.dart';
 import 'package:snapdrive/db/datamodel.dart';
+import 'package:snapdrive/screens/notification_screen.dart';
 
 ValueNotifier<List<CarModel>> carListNotifier = ValueNotifier([]);
 ValueNotifier<List<CustomerModel>> customerListNotifier = ValueNotifier([]);
@@ -21,7 +22,7 @@ Future<void> addCustomer(CustomerModel value) async {
   value.id = id;
   customerListNotifier.value.add(value);
   customerListNotifier.notifyListeners();
-  print(value);
+  // print(value);
 }
 
 Future<void> getAllCars() async {
@@ -81,6 +82,7 @@ void removeCarFromScreen(CarModel car) {
   removedCarsList.add(car);
   carListNotifier.value.remove(car);
   Boxes.getData().delete(car.key);
+
   carListNotifier.notifyListeners();
 }
 
