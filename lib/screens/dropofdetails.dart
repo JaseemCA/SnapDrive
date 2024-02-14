@@ -292,19 +292,65 @@ class _DropfofdetailsState extends State<Dropoffdetails> {
                                     backgroundColor:
                                         const Color.fromARGB(255, 10, 47, 39),
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 16, horizontal: 52),
+                                      vertical: 16,
+                                      horizontal: 52,
+                                    ),
                                   ),
                                   onPressed: () {
-                                    // getRemovedCars();
-                                    Navigator.pop(context);
-                                    removeCustomerFromScreen(widget.customer);
-                                    saveDetails();
+                                    if (droppOfftime.text.isEmpty) {
+                                      // Show a dialog or a snackbar to inform the user to pick a drop-off time
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: const Text('Value is empty'),
+                                            content: const Text(
+                                                'Please pick a drop-off time.'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      // Proceed with dropping off the details
+                                      Navigator.pop(context);
+                                      removeCustomerFromScreen(widget.customer);
+                                      saveDetails();
+                                    }
                                   },
                                   child: const Text(
                                     'DROP OFF',
                                     style: TextStyle(color: Colors.amber),
                                   ),
                                 ),
+
+                                // ElevatedButton(
+                                //   style: ElevatedButton.styleFrom(
+                                //     shape: RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.circular(15),
+                                //     ),
+                                //     backgroundColor:
+                                //         const Color.fromARGB(255, 10, 47, 39),
+                                //     padding: const EdgeInsets.symmetric(
+                                //         vertical: 16, horizontal: 52),
+                                //   ),
+                                //   onPressed: () {
+                                //     // getRemovedCars();
+                                //     Navigator.pop(context);
+                                //     removeCustomerFromScreen(widget.customer);
+                                //     saveDetails();
+                                //   },
+                                //   child: const Text(
+                                //     'DROP OFF',
+                                //     style: TextStyle(color: Colors.amber),
+                                //   ),
+                                // ),
                               ],
                             )
                           ],

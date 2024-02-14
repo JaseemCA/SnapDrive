@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/home.dart';
 import 'package:snapdrive/main.dart';
 
@@ -120,7 +119,25 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("HINT"),
+                        content: Text("Username = Password"),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("OK"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 child: const Text(
                   'Forgot password?',
                   style: TextStyle(

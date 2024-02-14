@@ -121,7 +121,7 @@ class _RentoutcarsState extends State<Rentoutcars> {
                                       padding: const EdgeInsets.only(
                                           top: 0, left: 30),
                                       child: Text(
-                                        'PICKED ON ${data[index].pickupdate} ',
+                                        ' ${data[index].pickupdate} ',
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14,
@@ -130,7 +130,7 @@ class _RentoutcarsState extends State<Rentoutcars> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 0, left: 30),
+                                          top: 5, left: 30),
                                       child: Text(
                                         ' ${data[index].customerName}',
                                         style: const TextStyle(

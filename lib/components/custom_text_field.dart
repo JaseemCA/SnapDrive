@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   TextInputType? keyboardType;
   bool enabled;
   TextStyle? textStyle;
+  FormFieldValidator<String>? validator;
 
   CustomTextField({
     required this.labelText,
@@ -16,7 +17,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.enabled = true,
     super.key,
-    this.textStyle,
+    this.textStyle, this.validator, 
   });
 
   @override

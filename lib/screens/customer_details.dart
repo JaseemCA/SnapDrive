@@ -110,42 +110,6 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                   child: _buildSelectedImage(),
                 ),
                 const SizedBox(height: 40),
-                // Padding(
-                //   padding: const EdgeInsets.only(
-                //       left: 90, right: 90, top: 20, bottom: 10),
-                //   child: Container(
-                //     width: 220,
-                //     height: 220,
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(20),
-                //       gradient: const LinearGradient(
-                //         colors: [
-                //           Colors.amber,
-                //           Colors.orange,
-                //         ],
-                //         begin: Alignment.topLeft,
-                //         end: Alignment.bottomRight,
-                //       ),
-                //       boxShadow: [
-                //         BoxShadow(
-                //           color: Colors.black.withOpacity(0.3),
-                //           spreadRadius: 2,
-                //           blurRadius: 50,
-                //           offset: const Offset(0, 3),
-                //         ),
-                //       ],
-                //     ),
-                //     child: ClipRRect(
-                //       borderRadius: BorderRadius.circular(20),
-                //       child: Image.file(
-                //         File(widget.customer.selectedImage),
-                //         fit: BoxFit.cover,
-                //         width: 200,
-                //         height: 200,
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 Container(
                   width: 300,
                   height: 340,
@@ -342,7 +306,7 @@ class _CustomerDetailsState extends State<CustomerDetails> {
                         backgroundColor: const Color.fromARGB(255, 10, 47, 39),
                         foregroundColor: Colors.amber,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12),
+                            horizontal: 90, vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

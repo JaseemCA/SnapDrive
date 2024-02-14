@@ -118,10 +118,11 @@ class _AddCustomerState extends State<AddCustomer> {
                       ),
                       const Gap(15),
                       CustomTextField(
-                          enabled: false,
-                          labelText: 'Daily Rent',
-                          hintText: 'Daily Rent',
-                          controller: carrentcontroller),
+                        enabled: false,
+                        labelText: 'Daily Rent',
+                        hintText: 'Daily Rent',
+                        controller: carrentcontroller,
+                      ),
                       const Gap(15),
                       CustomTextField(
                         labelText: 'Car reg Number',
@@ -136,6 +137,13 @@ class _AddCustomerState extends State<AddCustomer> {
                         hintText: 'customer Name',
                         controller: customerNameController,
                         keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Value is empty';
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
                       const Gap(15),
                       TextFormField(
@@ -273,6 +281,13 @@ class _AddCustomerState extends State<AddCustomer> {
                         hintText: 'Security Deposit',
                         controller: securityDepositController,
                         keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Value is empty';
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
                       const Gap(15),
                       Row(
@@ -288,9 +303,13 @@ class _AddCustomerState extends State<AddCustomer> {
                               fixedSize: const Size(300, 30),
                             ),
                             onPressed: () async {
-                              removeCarFromScreen(widget.selectedCar!);
+                              if (formKey.currentState?.validate() ?? false) {
+                                removeCarFromScreen(widget.selectedCar!);
+                                await saveCus();
+                              }
+                              // removeCarFromScreen(widget.selectedCar!);
 
-                              await saveCus();
+                              // await saveCus();
                             },
                             child: const Text(
                               'SAVE DETAILS',

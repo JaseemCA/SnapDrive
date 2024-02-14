@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snapdrive/db/datamodel.dart';
 import 'package:snapdrive/screens/home.dart';
-// import 'package:snapdrive/home.dart';
 import 'package:snapdrive/screens/login.dart';
 import 'package:snapdrive/main.dart';
 
@@ -24,7 +22,7 @@ class _SplashState extends State<Splash> {
 
   _navigatetologin() async {
     await Future.delayed(const Duration(seconds: 2), () {});
-    // ignore: use_build_context_synchronously
+
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -37,7 +35,7 @@ class _SplashState extends State<Splash> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('images/Screenshot 2024-01-05 120034.png'),
+          image: AssetImage('images/logo.png'),
         ),
       ),
     );

@@ -114,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Icons.home,
                   color: Colors.amber,
                 ),
+                backgroundColor: Color.fromARGB(255, 10, 47, 39),
                 label: "Home"),
             BottomNavigationBarItem(
               icon: Icon(
