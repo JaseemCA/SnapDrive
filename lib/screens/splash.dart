@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snapdrive/main.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapdrive/screens/home.dart';
 import 'package:snapdrive/screens/login.dart';
-import 'package:snapdrive/main.dart';
+// import 'package:snapdrive/screens/login.dart';
+// import 'package:snapdrive/main.dart';
 
 class Splash extends StatefulWidget {
   const Splash({
@@ -17,17 +20,18 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
+    // _navigatetologin();
     checkUserLoggedIn();
   }
 
   _navigatetologin() async {
-    await Future.delayed(const Duration(seconds: 2), () {});
-
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ));
+    await Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ));
+    });
   }
 
   @override

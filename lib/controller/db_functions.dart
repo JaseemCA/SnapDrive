@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:snapdrive/db/box.dart';
 import 'package:snapdrive/db/datamodel.dart';
-import 'package:snapdrive/screens/notification_screen.dart';
 
 ValueNotifier<List<CarModel>> carListNotifier = ValueNotifier([]);
 ValueNotifier<List<CustomerModel>> customerListNotifier = ValueNotifier([]);
